@@ -7,10 +7,11 @@ import pandas as pd
 
 
 def load():
-    hour_df = pd.read_csv("hour.csv")
-    day_df = pd.read_csv("day.csv")
-    day_and_hour_df = day_df.merge(hour_df, on='dteday', how='inner', suffixes=('_d', '_h'))
 
+    hour_df = pd.read_csv("https://raw.githubusercontent.com/yogaramadan/dashboard-analisis-rentalsepeda/main/data/hour.csv")
+    day_df = pd.read_csv("https://raw.githubusercontent.com/yogaramadan/dashboard-analisis-rentalsepeda/main/data/day.csv")
+
+    day_and_hour_df = day_df.merge(hour_df, on='dteday', how='inner', suffixes=('_d', '_h'))
 
     workday_or_weekend = {
         0: 'Weekend_and_Holiday',
@@ -19,7 +20,6 @@ def load():
     }
 
     day_and_hour_df['workday_or_weekend'] = day_and_hour_df['workingday_d'].map(workday_or_weekend)
-
     day_and_hour_df.groupby('workday_or_weekend')['cnt_d'].mean().reset_index().sort_values('cnt_d')
 
     tahun = {
@@ -103,7 +103,7 @@ def visual3(day_and_hour_df):
 def main():
     day_and_hour_df, min_date, max_date = load()
     header()
-    st.image("Rental sepeda.jpg")
+    st.image("Rental Sepeda.jpg")
     visual1(day_and_hour_df)
     visual2(day_and_hour_df)
     visual3(day_and_hour_df)
